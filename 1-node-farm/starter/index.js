@@ -1,6 +1,9 @@
 const fs = require("fs");
+// import replaceTemplate from './modules.js/replaceTemplate';
 const http = require("http");
 const url = require("url");
+const replaceTemplate = require('./modules/replaceTemplate')
+console.log(replaceTemplate);
 // // async
 
 // fs.readFile('./txt/read-this.txt','utf-8',(err,data)=>{
@@ -47,15 +50,19 @@ const url = require("url");
 //     res.write("hello, world");
 //     res.end();
 // }).listen(8080)
+
+// make the port number
 const port = 8080;
-const jsonFile = fs.readFile(
-  `${__dirname}/dev-data/data.json`,
-  `utf-8`,
-  (err, data) => {
-    if (err) console.error(err);
-    JSON.parse(data);
-  }
-);
+// make the jsonFile Async
+// const jsonFile = fs.readFile(
+//   `${__dirname}/dev-data/data.json`,
+//   `utf-8`,
+//   (err, data) => {
+//     if (err) console.error(err);
+//     JSON.parse(data);
+//   }
+// );
+
 
 let templateOverview = fs.readFileSync(
   `${__dirname}/templates/template-overview.html`,
@@ -72,22 +79,8 @@ const jsonFileSync = fs.readFileSync(
   `utf-8`
 );
 const dataObj = JSON.parse(jsonFileSync)
-console.log(jsonFile);
-const replaceTemplate = (temp, product)=>{
-  let output = temp.replace(/{%PRODUCTNAME%}/g,product.productName)
-  output = output.replace(/{%PRICE%}/g, product.price)
-  output = output.replace(/{%FROM%}/g, product.from)
-  output = output.replace(/{%QUANTITY%}/g, product.quantity)
-  output = output.replace(/{%NUTRIENTS%}/g, product.nutrients)
-  output = output.replace(/{%DESCRIPTION%}/g, product.description)
-  output = output.replace(/{%ID%}/g, product.id)
-  output = output.replace(/{%IMAGE%}/g, product.image)
+// console.log(jsonFile);
 
-  if(!product.organic) output = output.replace(/{%NOT_ORGANIC%}/g, 'not-organic' );
-
-  return output
-    
-}
 const server = http.createServer((req, res) => {
   const {query ,pathname} = url.parse(req.url, true)
   
